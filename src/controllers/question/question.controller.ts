@@ -4,7 +4,7 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 
 import { QuestionService } from "services/question/question.service";
 
-import { CreateQuestionDto } from "dtos/create-question.dto";
+import { CreateQuestionDto } from "dtos/question/create-question.dto";
 
 import Question from "entities/question.entity";
 

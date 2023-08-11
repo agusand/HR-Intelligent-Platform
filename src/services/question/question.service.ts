@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { InsertResult, Repository } from "typeorm";
 
-import { CreateQuestionDto } from "dtos/create-question.dto";
+import { CreateQuestionDto } from "dtos/question/create-question.dto";
 
 import Question from "entities/question.entity";
 

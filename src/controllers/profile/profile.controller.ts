@@ -2,7 +2,7 @@ import { Controller, Post, Body, HttpException, HttpStatus } from "@nestjs/commo
 import { InsertResult, QueryFailedError } from "typeorm";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 
-import { CreateProfileDto } from "dtos/create-profile.dto";
+import { CreateProfileDto } from "dtos/profile/create-profile.dto";
 
 import { ProfileService } from "services/profile/profile.service";
 

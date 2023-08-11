@@ -1,22 +1,20 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 
 import Profile from "./profile.entity";
 import Question from "./question.entity";
 
 @Entity({ name: "answers" })
 export default class Answer {
-  @PrimaryGeneratedColumn()
-  id!: number;
-
-  @Column("int")
+  @PrimaryColumn("int", { nullable: false })
   @ManyToOne(() => Question)
-  @JoinColumn({ name: "id" })
+  @JoinColumn({ name: "questionId", referencedColumnName: "id" })
   questionId!: number;
 
-  @Column("varchar", { length: 2000 })
+  @Column("varchar", { length: 2000, nullable: false })
   answer!: string;
 
+  @PrimaryColumn("varchar", { length: 50, nullable: false })
   @ManyToOne(() => Profile, { onDelete: "CASCADE" })
-  @JoinColumn({ name: "profile" })
-  profile!: Profile;
+  @JoinColumn({ name: "profile", referencedColumnName: "email" })
+  profile!: string;
 }

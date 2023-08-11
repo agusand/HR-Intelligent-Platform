@@ -9,4 +9,7 @@ export class CreateProfileDto {
 
   @ApiProperty()
   last_name: string;
+
+  @ApiProperty()
+  is_external: boolean;
 }

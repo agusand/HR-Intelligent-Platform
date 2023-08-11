@@ -1,8 +1,8 @@
-import { Controller, Post, Body, Delete, Param, ParseIntPipe, HttpException, HttpStatus } from "@nestjs/common";
-import { DeleteResult, InsertResult, QueryFailedError } from "typeorm";
+import { Controller, Post, Body, HttpException, HttpStatus } from "@nestjs/common";
+import { InsertResult, QueryFailedError } from "typeorm";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 
-import { CreateAnswerDto } from "dtos/create-answer.dto";
+import { CreateAnswerDto } from "dtos/answer/create-answer.dto";
 
 import { AnswerService } from "services/answer/answer.service";
 
@@ -31,26 +31,13 @@ export class AnswerController {
         if (error.driverError.code === "ER_NO_REFERENCED_ROW_2") {
           throw new HttpException(error.message, HttpStatus.NOT_FOUND);
         }
+
+        if (error.driverError.code === "ER_DUP_ENTRY") {
+          throw new HttpException(error.message, HttpStatus.CONFLICT);
+        }
       }
 
       throw error;
-    }
-  }
-
-  @ApiOperation({ description: "Delete answer" })
-  @Delete(":id")
-  async deleteAnswer(@Param("id", ParseIntPipe) id: number): Promise<DeleteResult> {
-    try {
-      const result = await this.answerService.deleteAnswer(id);
-
-      if (result.affected === 0) throw new HttpException(`Answer with id ${id} not found`, HttpStatus.NOT_FOUND);
-
-      return result;
-    } catch (error) {
-      if (!(error instanceof Error)) return;
-      console.error(error);
-
-      if (error instanceof HttpException) throw error;
     }
   }
 }

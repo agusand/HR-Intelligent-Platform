@@ -1,8 +1,10 @@
-import { Controller, Post, Body, HttpException, HttpStatus } from "@nestjs/common";
+import { Controller, Post, Body, HttpException, HttpStatus, Get, Param } from "@nestjs/common";
 import { InsertResult, QueryFailedError } from "typeorm";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 
 import { CreateAnswerDto } from "dtos/answer/create-answer.dto";
+
+import Answer from "entities/answer.entity";
 
 import { AnswerService } from "services/answer/answer.service";
 
@@ -11,6 +13,21 @@ import { AnswerService } from "services/answer/answer.service";
 @Controller({ path: "answer" })
 export class AnswerController {
   constructor(private answerService: AnswerService) {}
+
+  @ApiOperation({ description: "Get answers by email" })
+  @Get(":email")
+  async getAnswers(@Param("email") email: string): Promise<Answer[]> {
+    try {
+      return await this.answerService.getAnswersByEmail(email);
+    } catch (error) {
+      if (!(error instanceof Error)) return;
+      console.error(error);
+
+      if (error instanceof HttpException) throw error;
+
+      throw error;
+    }
+  }
 
   @ApiOperation({ description: "Add new answer" })
   @Post()

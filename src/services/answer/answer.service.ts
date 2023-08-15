@@ -15,7 +15,11 @@ export class AnswerService {
     return this.answerRepository.insert(answer);
   }
 
-  getAnswersFromAnUser(email: string): Promise<GetAnswerDto[]> {
+  getAnswersByEmail(email: string): Promise<Answer[]> {
+    return this.answerRepository.find({ where: { profile: email } });
+  }
+
+  getAnswersWithQuestion(email: string): Promise<GetAnswerDto[]> {
     return this.answerRepository.find({ where: { profile: email }, relations: ["questionId"] }) as unknown as Promise<GetAnswerDto[]>;
   }
 }

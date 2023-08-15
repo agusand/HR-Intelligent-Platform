@@ -21,7 +21,7 @@ export class OpenaiService {
         prompt: this.generatePrompt(qaPair.question.question, qaPair.answer, qaPair.question.cryteria),
         temperature,
       });
-      return { cryteria: qaPair.question.cryteria, result: completion.data.choices[0].text.replace(/\D/g, "-").split("-")[0] };
+      return { cryteria: qaPair.question.cryteria, result: completion.data.choices[0].text.replace(/\D/g, "").slice(0, 2) };
     } catch (error) {
       console.log(error);
     }
@@ -34,7 +34,7 @@ export class OpenaiService {
   }
 
   async processEveryAnswer(email: string) {
-    const answers = await this.answerService.getAnswersFromAnUser(email);
+    const answers = await this.answerService.getAnswersWithQuestion(email);
 
     const validAnswers = answers.filter((answer) => answer.questionId.cryteria !== "");
 

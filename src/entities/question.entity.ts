@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import Position from "./position.entity";
 
 @Entity({ name: "questions" })
 export default class Question {
@@ -10,4 +11,9 @@ export default class Question {
 
   @Column("varchar", { length: 2000, nullable: false })
   cryteria!: string;
+
+  @ManyToOne(() => Position, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "position", referencedColumnName: "id" })
+  @Column("int")
+  position!: number;
 }

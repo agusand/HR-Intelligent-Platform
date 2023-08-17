@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateAnswerDto {
-  @ApiProperty({ type: "string", example: "nombre.apellido@domain.com" })
+  @ApiProperty({ example: "nombre.apellido@domain.com" })
   profile: string;
 
   @ApiProperty()

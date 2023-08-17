@@ -6,7 +6,7 @@ import Question from "./question.entity";
 @Entity({ name: "answers" })
 export default class Answer {
   @PrimaryColumn("int", { nullable: false })
-  @ManyToOne(() => Question)
+  @ManyToOne(() => Question, { onDelete: "RESTRICT" })
   @JoinColumn({ name: "questionId", referencedColumnName: "id" })
   questionId!: number;
 

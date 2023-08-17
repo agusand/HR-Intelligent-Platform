@@ -8,6 +8,7 @@ export class GetAnswerDto {
   questionId: {
     question: string;
     cryteria: string;
+    position: number;
     id: number;
   };
 

@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, OneToMany, PrimaryColumn } from "typeorm";
 
 import Answer from "./answer.entity";
+import PositionProfile from "./position-profile.entity";
 
 @Entity({ name: "profiles" })
 export default class Profile {
@@ -19,4 +20,8 @@ export default class Profile {
   @OneToMany(() => Answer, (answer) => answer.profile)
   @JoinColumn()
   answer!: Answer[];
+
+  @OneToMany(() => PositionProfile, (positionProfile) => positionProfile.profiles)
+  @JoinColumn({ name: "positions" })
+  position!: PositionProfile[];
 }

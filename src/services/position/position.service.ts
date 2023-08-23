@@ -14,8 +14,18 @@ export class PositionService {
     return this.positionRepository.insert(position);
   }
 
-  getPositions(): Promise<Position[]> {
-    return this.positionRepository.find();
+  async getPositions(): Promise<(Position & { profilesScoring: number[] })[]> {
+    const result = await this.positionRepository.find({ relations: ["profiles"] });
+    const newResult: (Position & { profilesScoring: number[] })[] = result.map(
+      (position) =>
+        ({
+          ...position,
+          profilesScoring: position.profiles.map((profile) => profile.scoring),
+        } as Position & {
+          profilesScoring: number[];
+        }),
+    );
+    return newResult;
   }
 
   getPositionById(positionId: number): Promise<Position> {

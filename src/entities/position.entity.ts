@@ -11,6 +11,9 @@ export default class Position {
   @Column("varchar", { length: 50, nullable: false })
   name!: string;
 
+  @Column("int", { nullable: false, default: 0 })
+  sockets!: number;
+
   @OneToMany(() => Question, (question) => question.question)
   @JoinColumn()
   questions!: Question[];

@@ -43,4 +43,12 @@ export class ProfileService {
     const result = this.positionsProfilesRepository.exist({ where: { profiles: email, positions: position } });
     return result;
   }
+
+  async getHigherProfiles(min: number) {
+    const postulations = (await this.positionsProfilesRepository.find()) as PositionProfile[];
+    const profiles = (await this.profileRepository.find({ relations: ["position"] })) as Profile[];
+    const filteredProfiles = postulations.filter((postulation) => postulation.scoring > min).map((postulation) => postulation.profiles);
+    const result = profiles.filter((profile) => filteredProfiles.includes(profile.email as unknown as Profile));
+    return result;
+  }
 }

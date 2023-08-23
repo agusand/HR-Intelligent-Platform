@@ -21,6 +21,6 @@ export class AnswerService {
 
   async getAnswersWithQuestion(email: string, position?: number): Promise<GetAnswerDto[]> {
     const result = (await this.answerRepository.find({ where: { profile: email }, relations: ["questionId"] })) as unknown as GetAnswerDto[];
-    return position ? result.filter((answer) => answer.questionId.position === position) : result;
+    return position ? result.filter((answer) => answer.questionId.position === 1) : result;
   }
 }

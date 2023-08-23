@@ -8,6 +8,7 @@ import { PostulateProfileDto } from "dtos/profile/postulate-profile.dto";
 import Position from "entities/position.entity";
 
 import { ProfileService } from "services/profile/profile.service";
+import Profile from "entities/profile.entity";
 
 @ApiBearerAuth()
 @ApiTags("Profiles")
@@ -95,6 +96,23 @@ export class ProfileController {
         if (Object.keys(a).includes("scoring") && Object.keys(b).includes("scoring")) return b.scoring - a.scoring;
         else return 0;
       });
+
+      return result;
+    } catch (error) {
+      if (!(error instanceof Error)) return;
+      console.error(error);
+
+      if (error instanceof HttpException) throw error;
+
+      throw error;
+    }
+  }
+
+  @ApiOperation({ description: "Get higher profiles" })
+  @Post("higher")
+  async getHigherProfiles(@Body() body: { min: number }): Promise<Profile[]> {
+    try {
+      const result = await this.profilesService.getHigherProfiles(body.min);
 
       return result;
     } catch (error) {

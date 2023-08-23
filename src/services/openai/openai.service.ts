@@ -6,7 +6,6 @@ import { ParsedResponse, QuestionAnswerPair } from "./types";
 import { AnswerService } from "services/answer/answer.service";
 import { IndicatorService } from "services/indicator/indicator.service";
 import { PositionService } from "services/position/position.service";
-import { ProfileService } from "services/profile/profile.service";
 
 @Injectable()
 export class OpenaiService {
@@ -19,7 +18,6 @@ export class OpenaiService {
     private readonly answerService: AnswerService,
     private readonly indicatorsService: IndicatorService,
     private readonly positionService: PositionService,
-    private readonly profileService: ProfileService,
   ) {}
 
   async processAnswer(qaPair: QuestionAnswerPair, position: string, temperature = 0.1) {
@@ -83,7 +81,7 @@ export class OpenaiService {
 
     if (positionElement) {
       const recommendation = await this.askForRecommendation(averageImplementedResponse, positionElement.name);
-      console.log(recommendation);
+      recommendation;
     }
 
     return averageImplementedResponse;
@@ -95,7 +93,7 @@ ${averageImplementedResponse.reduce((acumulatedValue, currentResponse) => {
   return acumulatedValue + `${currentResponse.indicator}: ${currentResponse.value}\n`;
 }, "")}
 y teniendo en cuenta que parten de una lista de respuestas de un usuario postulante a la posicion ${position}, en base a un listado de preguntas realizadas al mismo
-dame un consejo sobre como mejorar las postulaciones`;
+dame un resumen sobre el perfil del postulante`;
     try {
       const completion = await this.openai.createCompletion({
         model: "text-davinci-003",
@@ -103,7 +101,6 @@ dame un consejo sobre como mejorar las postulaciones`;
         temperature: 0,
         max_tokens: 500,
       });
-      +console.log(completion.data.choices.map((choice) => choice.text));
       return completion.data.choices[0].text;
     } catch (error) {
       console.log(error.message);
